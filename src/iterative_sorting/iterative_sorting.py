@@ -1,4 +1,8 @@
 # TO-DO: Complete the selection_sort() function below 
+import time
+import random
+
+
 def selection_sort( arr ):
     # loop through n-1 elements
     lenth = len(arr)
@@ -10,7 +14,6 @@ def selection_sort( arr ):
         for j in range(i + 1, lenth):
             if arr[j] < arr[smallest_index]:
                 smallest_index = j
-        print(arr[smallest_index], arr[cur_index])
         cur = arr[i]
         smallest = arr[smallest_index]
         arr[i] = smallest
@@ -39,9 +42,46 @@ def bubble_sort( arr ):
 
 # STRETCH: implement the Count Sort function below
 def count_sort( arr, maximum=-1 ):
+    if arr == []:
+        return([])
+    count = 0
+    new_arr = arr.copy()
+    for i in arr:
+        if i < 0:
+            return("Error, negative numbers not allowed in Count Sort")
+        else:
+            if i > count:
+                count = i
+                print(count)
+            
+    counts = [0 for i in range(count + 1)]
+    print(counts)
+    for i in arr:
+        counts[i] += 1
+    #print(counts)
+    for i in range(len(counts)):
+        if len(counts) - 1 >= i+1:
+            counts[i + 1] = counts[i] + counts[i + 1]
+        else:
+            pass
+    counts.insert(0,0)
+    counts = counts[:-1]
+    for i in arr:
+        new_arr[counts[i]] = counts[i]
+        counts[i] += 1
+    return(new_arr)
 
-    return arr
+a = [random.randint(0,10) for i in range(500)]
+b = [random.randint(0,10) for i in range(500)]
+c = [random.randint(0,10) for i in range(500)]
 
-a = [3,6,2,5,8,9,4,6,85]
-print(bubble_sort(a))
-print(a)
+start_time = time.time()
+selection_sort(a)
+print("--- %s seconds ---" % (time.time() - start_time))
+
+start_time = time.time()
+bubble_sort(b)
+a.sort()
+print("--- %s seconds ---" % (time.time() - start_time))
+
+print(count_sort(c))
